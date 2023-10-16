@@ -4,7 +4,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"twitter-clone/server/pkg/database"
+	"twitter-clone/server/pkg/shared/infrastructure/datastore"
+	"twitter-clone/server/pkg/shared/infrastructure/router"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -14,7 +15,7 @@ func main() {
 
 	r := gin.Default()
 
-	err := database.InitDatabase(os.Getenv("DB_URI"))
+	err := datastore.InitDatabase(os.Getenv("DB_URI"))
 
 	if err != nil {
 		log.Fatal("Error initializing the database: ", err)
@@ -26,5 +27,6 @@ func main() {
 		})
 	})
 
-	r.Run()
+	router.InitializeRoutes(r)
+	r.Run(":8080")
 }

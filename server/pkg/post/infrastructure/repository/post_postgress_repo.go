@@ -10,7 +10,7 @@ type postRepository struct {
 	db *sql.DB
 }
 
-func NewUserRepository(db *sql.DB) repository.PostRepository {
+func NewPostRepository(db *sql.DB) repository.PostRepository {
 	return &postRepository{db}
 }
 
@@ -20,6 +20,7 @@ func (r *postRepository) FindAll() ([]*model.Post, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	defer rows.Close()
 
 	posts := make([]*model.Post, 0)
@@ -54,7 +55,7 @@ func (r *postRepository) FindById(id string) (*model.Post, error) {
 }
 
 func (r *postRepository) Create(post *model.Post) error {
-	_, err := r.db.Exec("INSERT INTO posts (id, content, user_id) VALUES ($1, $2, $3)", post.ID, post.Content, post.UserID)
+	_, err := r.db.Exec("INSERT INTO post (id, content, user_id) VALUES ($1, $2, $3)", post.ID, post.Content, post.UserID)
 
 	if err != nil {
 		return err
