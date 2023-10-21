@@ -7,7 +7,7 @@ type Post struct {
 }
 
 type PostRepository interface {
-	FindAll() ([]*Post, error)
+	FindAllByUserId(userID string) ([]*Post, error)
 	FindById(id string) (*Post, error)
 	Create(post *Post) error
 }

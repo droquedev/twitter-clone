@@ -13,8 +13,18 @@ func NewPostPostgresRepository(db *sql.DB) entity.PostRepository {
 	return &PostPostgresRepository{db}
 }
 
-func (r *PostPostgresRepository) FindAll() ([]*entity.Post, error) {
-	rows, err := r.db.Query("SELECT * FROM posts")
+func (r *PostPostgresRepository) Create(post *entity.Post) error {
+	_, err := r.db.Exec("INSERT INTO posts (id, content, user_id) VALUES ($1, $2, $3)", post.ID, post.Content, post.UserID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *PostPostgresRepository) FindAllByUserId(userID string) ([]*entity.Post, error) {
+	rows, err := r.db.Query("SELECT * FROM posts WHERE user_id = $1", userID)
 
 	if err != nil {
 		return nil, err
@@ -51,14 +61,4 @@ func (r *PostPostgresRepository) FindById(id string) (*entity.Post, error) {
 	}
 
 	return post, nil
-}
-
-func (r *PostPostgresRepository) Create(post *entity.Post) error {
-	_, err := r.db.Exec("INSERT INTO posts (id, content, user_id) VALUES ($1, $2, $3)", post.ID, post.Content, post.UserID)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
 }

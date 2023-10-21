@@ -10,13 +10,16 @@ import (
 )
 
 func postsRoutes(router *gin.Engine, db *sql.DB) {
-	productGroup := router.Group("/api/v1/posts")
 
 	postRepository := repository.NewPostPostgresRepository(db)
 	postUsecase := usecase.NewPostUsecase(postRepository)
 	postHandler := handler.NewPostHandler(postUsecase)
 
+	productGroup := router.Group("/api/v1/posts")
+
 	{
-		productGroup.POST("/", postHandler.CreatePost)
+		productGroup.POST("/", postHandler.CreatePostHandler)
+		productGroup.GET("/:user_id", postHandler.FindAllByUserIdHandler)
 	}
+
 }

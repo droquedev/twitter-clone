@@ -27,3 +27,7 @@ func (u *PostUseCase) Create(createPostDTO dto.CreatePostDTO) error {
 
 	return u.postRepository.Create(model)
 }
+
+func (u *PostUseCase) FindAllByUserId(userID string) ([]*entity.Post, error) {
+	return u.postRepository.FindAllByUserId(userID)
+}
