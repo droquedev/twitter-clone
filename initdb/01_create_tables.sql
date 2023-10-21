@@ -1,13 +1,13 @@
-CREATE TABLE "user" (
+CREATE TABLE "users" (
   "id" UUID PRIMARY KEY,
-  "name" VARCHAR(100)
+  "username" VARCHAR(20)
 );
 
-CREATE TABLE "post" (
+CREATE TABLE "posts" (
   "id" UUID PRIMARY KEY,
-  "content" VARCHAR(255),
+  "content" VARCHAR(256),
   "user_id" UUID
 );
 
-ALTER TABLE "post" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+ALTER TABLE "posts" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
 

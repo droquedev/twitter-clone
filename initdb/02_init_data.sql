@@ -1,1 +1,1 @@
-INSERT INTO "user" (id, name) VALUES ('9dd63195-0d07-4fc5-b86f-49cd1088faac', 'Luis Roque');
+INSERT INTO "users" (id, name) VALUES ('9dd63195-0d07-4fc5-b86f-49cd1088faac', 'droque21');
