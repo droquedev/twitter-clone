@@ -9,5 +9,5 @@ CREATE TABLE "posts" (
   "user_id" UUID
 );
 
-ALTER TABLE "posts" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
+ALTER TABLE "posts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 

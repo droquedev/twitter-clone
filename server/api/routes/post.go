@@ -12,7 +12,7 @@ import (
 func postsRoutes(router *gin.Engine, db *sql.DB) {
 	productGroup := router.Group("/api/v1/posts")
 
-	postRepository := repository.NewPostRepository(db)
+	postRepository := repository.NewPostPostgresRepository(db)
 	postUsecase := usecase.NewPostUsecase(postRepository)
 	postHandler := handler.NewPostHandler(postUsecase)
 

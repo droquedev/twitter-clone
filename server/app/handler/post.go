@@ -6,6 +6,7 @@ import (
 	"twitter-clone/server/app/usecase"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type PostHandler struct {
@@ -26,10 +27,17 @@ func (h *PostHandler) CreatePost(c *gin.Context) {
 		return
 	}
 
-	if err := h.postUsecase.Create(createPostDTO); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+	validate := validator.New()
+
+	if err := validate.Struct(createPostDTO); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
+	if err := h.postUsecase.Create(createPostDTO); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Post created successfully"})
 }
