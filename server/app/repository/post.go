@@ -2,19 +2,18 @@ package repository
 
 import (
 	"database/sql"
-	"twitter-clone/server/pkg/post/domain/model"
-	"twitter-clone/server/pkg/post/domain/repository"
+	"twitter-clone/server/app/entity"
 )
 
-type postRepository struct {
+type PostRepository struct {
 	db *sql.DB
 }
 
-func NewPostRepository(db *sql.DB) repository.PostRepository {
-	return &postRepository{db}
+func NewPostRepository(db *sql.DB) entity.PostRepository {
+	return &PostRepository{db}
 }
 
-func (r *postRepository) FindAll() ([]*model.Post, error) {
+func (r *PostRepository) FindAll() ([]*entity.Post, error) {
 	rows, err := r.db.Query("SELECT * FROM posts")
 
 	if err != nil {
@@ -23,10 +22,10 @@ func (r *postRepository) FindAll() ([]*model.Post, error) {
 
 	defer rows.Close()
 
-	posts := make([]*model.Post, 0)
+	posts := make([]*entity.Post, 0)
 
 	for rows.Next() {
-		post := new(model.Post)
+		post := new(entity.Post)
 
 		err := rows.Scan(&post.ID, &post.Content, &post.UserID)
 
@@ -40,10 +39,10 @@ func (r *postRepository) FindAll() ([]*model.Post, error) {
 	return posts, nil
 }
 
-func (r *postRepository) FindById(id string) (*model.Post, error) {
+func (r *PostRepository) FindById(id string) (*entity.Post, error) {
 	row := r.db.QueryRow("SELECT * FROM posts WHERE id = $1", id)
 
-	post := new(model.Post)
+	post := new(entity.Post)
 
 	err := row.Scan(&post.ID, &post.Content, &post.UserID)
 
@@ -54,7 +53,7 @@ func (r *postRepository) FindById(id string) (*model.Post, error) {
 	return post, nil
 }
 
-func (r *postRepository) Create(post *model.Post) error {
+func (r *PostRepository) Create(post *entity.Post) error {
 	_, err := r.db.Exec("INSERT INTO post (id, content, user_id) VALUES ($1, $2, $3)", post.ID, post.Content, post.UserID)
 
 	if err != nil {

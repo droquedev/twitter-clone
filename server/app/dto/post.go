@@ -1,7 +1,6 @@
-package model
+package dto
 
-type Post struct {
-	ID      string `json:"id"`
+type CreatePostDTO struct {
 	Content string `json:"content"`
 	UserID  string `json:"userId"`
 }
