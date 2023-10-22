@@ -7,5 +7,6 @@ import (
 )
 
 func InitializeRoutes(router *gin.Engine, db *sql.DB) {
+	authRoutes(router, db)
 	postsRoutes(router, db)
 }
