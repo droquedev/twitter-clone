@@ -9,5 +9,5 @@ import (
 
 func InitializeRoutes(router *gin.Engine, db *sql.DB, config *config.Config) {
 	authRoutes(router, db, config)
-	postsRoutes(router, db)
+	postsRoutes(router, db, config)
 }

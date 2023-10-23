@@ -17,15 +17,21 @@ func NewPostUsecase(postRepo entity.PostRepository) *PostUseCase {
 	}
 }
 
-func (u *PostUseCase) Create(createPostDTO dto.CreatePostDTO) error {
+func (u *PostUseCase) Create(createPostDTO dto.CreatePostDTO) (*entity.Post, error) {
 
-	model := &entity.Post{
+	post := &entity.Post{
 		ID:      uuid.NewString(),
 		Content: createPostDTO.Content,
 		UserID:  createPostDTO.UserID,
 	}
 
-	return u.postRepository.Create(model)
+	err := u.postRepository.Create(post)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return post, nil
 }
 
 func (u *PostUseCase) FindAllByUserId(userID string) ([]*entity.Post, error) {

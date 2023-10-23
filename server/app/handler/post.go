@@ -27,6 +27,8 @@ func (h *PostHandler) CreatePostHandler(c *gin.Context) {
 		return
 	}
 
+	createPostDTO.UserID = c.GetString("sub")
+
 	validate := validator.New()
 
 	if err := validate.Struct(createPostDTO); err != nil {
@@ -34,12 +36,16 @@ func (h *PostHandler) CreatePostHandler(c *gin.Context) {
 		return
 	}
 
-	if err := h.postUsecase.Create(createPostDTO); err != nil {
+	post, err := h.postUsecase.Create(createPostDTO)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "Post created successfully"})
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Post created successfully",
+		"result":  post,
+	})
 }
 
 func (h *PostHandler) FindAllByUserIdHandler(c *gin.Context) {
