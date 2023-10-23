@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
 	"twitter-clone/server/api/middleware"
 	"twitter-clone/server/api/routes"
+	"twitter-clone/server/config"
 	"twitter-clone/server/pkg/database"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +15,13 @@ func main() {
 
 	r := gin.Default()
 
-	err := database.InitDatabase(os.Getenv("DB_URI"))
+	config, err := config.NewConfig()
+
+	if err != nil {
+		panic(err)
+	}
+
+	db, err := database.InitDatabase(config)
 
 	r.Use(middleware.GlobalErrorHandler())
 
@@ -29,7 +35,7 @@ func main() {
 		})
 	})
 
-	routes.InitializeRoutes(r, database.GetDB())
+	routes.InitializeRoutes(r, db, config)
 
 	r.Run(":8080")
 }

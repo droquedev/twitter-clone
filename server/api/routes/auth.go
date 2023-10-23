@@ -5,11 +5,12 @@ import (
 	"twitter-clone/server/app/handler"
 	"twitter-clone/server/app/repository"
 	"twitter-clone/server/app/usecase"
+	"twitter-clone/server/config"
 
 	"github.com/gin-gonic/gin"
 )
 
-func authRoutes(router *gin.Engine, db *sql.DB) {
+func authRoutes(router *gin.Engine, db *sql.DB, config *config.Config) {
 
 	userRepository := repository.NewUserPostgresRepository(db)
 	authUsecase := usecase.NewAuthUsecase(userRepository)

@@ -2,29 +2,22 @@ package database
 
 import (
 	"database/sql"
+	"twitter-clone/server/config"
 
 	_ "github.com/lib/pq"
 )
 
-var db *sql.DB
+func InitDatabase(config *config.Config) (*sql.DB, error) {
 
-func InitDatabase(dataSourceName string) error {
-
-	var err error
-
-	db, err = sql.Open("postgres", dataSourceName)
+	db, err := sql.Open("postgres", config.DB_URI)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if err = db.Ping(); err != nil {
 		panic(err)
 	}
 
-	return nil
-}
-
-func GetDB() *sql.DB {
-	return db
+	return db, nil
 }

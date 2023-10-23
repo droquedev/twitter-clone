@@ -25,6 +25,7 @@ services:
       - postgres
     environment:
       - DB_URI=postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable
+      - JWT_SECRET=this_is_secure_secret
     networks:
       - mynetwork
 
