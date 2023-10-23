@@ -17,7 +17,7 @@ func NewAuthUsecase(postRepo entity.UserRepository) *AuthUseCase {
 	}
 }
 
-func (u *AuthUseCase) Login(createPostDTO dto.AuthLoginDTO, jwt string) (*entity.Auth, error) {
+func (u *AuthUseCase) Login(createPostDTO dto.AuthLoginDTO) (*entity.User, error) {
 
 	user, err := u.userRepository.FindUserByUsername(createPostDTO.UserName)
 
@@ -33,7 +33,5 @@ func (u *AuthUseCase) Login(createPostDTO dto.AuthLoginDTO, jwt string) (*entity
 		return nil, errors.New("User or password incorrect")
 	}
 
-	return &entity.Auth{
-		Jwt: jwt,
-	}, nil
+	return user, nil
 }

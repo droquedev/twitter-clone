@@ -19,6 +19,6 @@ func authRoutes(router *gin.Engine, db *sql.DB, config *config.Config) {
 	productGroup := router.Group("/api/v1/auth")
 
 	{
-		productGroup.POST("/", authHandler.CreatePostHandler("secret"))
+		productGroup.POST("/", authHandler.LoginHandler(config.JWT_SECRET))
 	}
 }
