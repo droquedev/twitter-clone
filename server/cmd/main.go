@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"twitter-clone/server/api/middleware"
 	"twitter-clone/server/api/routes"
+	"twitter-clone/server/app/event"
 	"twitter-clone/server/config"
 	"twitter-clone/server/pkg/database"
 
@@ -21,6 +22,7 @@ func main() {
 		panic(err)
 	}
 
+	event.InitSubscriptions()
 	db, err := database.InitDatabase(config)
 
 	r.Use(middleware.GlobalErrorHandler())

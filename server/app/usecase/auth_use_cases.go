@@ -26,11 +26,11 @@ func (u *AuthUseCase) Login(createPostDTO dto.AuthLoginDTO) (*entity.User, error
 	}
 
 	if user == nil {
-		return nil, errors.New("User or password incorrect")
+		return nil, errors.New("user or password incorrect")
 	}
 
-	if validPassword := password.Verify(user.Password, createPostDTO.Password); validPassword == false {
-		return nil, errors.New("User or password incorrect")
+	if validPassword := password.Verify(user.Password, createPostDTO.Password); !validPassword {
+		return nil, errors.New("user or password incorrect")
 	}
 
 	return user, nil

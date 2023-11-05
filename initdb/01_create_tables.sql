@@ -1,6 +1,7 @@
 CREATE TABLE "users" (
   "id" UUID PRIMARY KEY,
   "username" VARCHAR(100),
+  "email" VARCHAR(100),
   "password" CHAR(60)
 );
 

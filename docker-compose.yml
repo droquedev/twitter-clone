@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   postgres:
-    container_name: postgres
+    container_name: twitter-clone-db
     image: postgres:16
     ports:
       - "5440:5432"
@@ -15,7 +15,7 @@ services:
       - mynetwork
 
   twitter-server:
-    container_name: twitter-server
+    container_name: twitter-clone-server
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -24,7 +24,7 @@ services:
     depends_on:
       - postgres
     environment:
-      - DB_URI=postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable
+      - DB_URI=postgres://postgres:postgres@twitter-clone-db:5432/postgres?sslmode=disable
       - JWT_SECRET=this_is_secure_secret
     networks:
       - mynetwork
@@ -42,4 +42,3 @@ services:
 
 networks:
   mynetwork:
-
