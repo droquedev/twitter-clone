@@ -2,9 +2,9 @@ package routes
 
 import (
 	"database/sql"
-	"twitter-clone/server/app/handler"
-	"twitter-clone/server/app/repository"
-	"twitter-clone/server/app/usecase"
+	auth_application "twitter-clone/server/app/auth/application"
+	auth_handlers "twitter-clone/server/app/auth/infrastructure/handlers"
+	user_repositories "twitter-clone/server/app/user/infrastructure/repositories"
 	"twitter-clone/server/config"
 
 	"github.com/gin-gonic/gin"
@@ -12,9 +12,9 @@ import (
 
 func authRoutes(router *gin.Engine, db *sql.DB, config *config.Config) {
 
-	userRepository := repository.NewUserPostgresRepository(db)
-	authUsecase := usecase.NewAuthUsecase(userRepository)
-	authHandler := handler.NewAuthHandler(authUsecase)
+	userRepository := user_repositories.NewUserPostgresRepository(db)
+	authUsecase := auth_application.NewAuthLogin(userRepository)
+	authHandler := auth_handlers.NewAuthHandler(authUsecase)
 
 	productGroup := router.Group("/api/v1/auth")
 

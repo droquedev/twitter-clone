@@ -3,9 +3,9 @@ package routes
 import (
 	"database/sql"
 	"twitter-clone/server/api/middleware"
-	"twitter-clone/server/app/handler"
-	"twitter-clone/server/app/repository"
-	"twitter-clone/server/app/usecase"
+	post_application "twitter-clone/server/app/post/application"
+	post_handlers "twitter-clone/server/app/post/infrastructure/handlers"
+	post_repositories "twitter-clone/server/app/post/infrastructure/repositories"
 	"twitter-clone/server/config"
 
 	"github.com/gin-gonic/gin"
@@ -13,9 +13,9 @@ import (
 
 func postsRoutes(router *gin.Engine, db *sql.DB, config *config.Config) {
 
-	postRepository := repository.NewPostPostgresRepository(db)
-	postUsecase := usecase.NewPostUsecase(postRepository)
-	postHandler := handler.NewPostHandler(postUsecase)
+	postRepository := post_repositories.NewPostPostgresRepository(db)
+	postUsecase := post_application.NewPostUsecase(postRepository)
+	postHandler := post_handlers.NewPostHandler(postUsecase)
 
 	productGroup := router.Group("/api/v1/posts", middleware.AuthMiddleware(config))
 
